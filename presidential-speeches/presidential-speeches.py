@@ -12,10 +12,14 @@ if sys.version_info[0] < 3 or (sys.version_info[0] == 3 and sys.version_info[1] 
 
 BASE_URL = "http://www.presidency.ucsb.edu/ws/index.php"
 BASE_URL_PRINT = "http://www.presidency.ucsb.edu/ws/print.php"
+BASE_DIR = "speeches"
 
 def main():
     query = sys.argv[1]
     
+    if not os.path.isdir(BASE_DIR):
+        os.mkdir(BASE_DIR)
+
     # Execute the search using supplied query string
     params = urllib.parse.urlencode({'searchterm' : query})
     url = BASE_URL + "?" + params
@@ -27,7 +31,7 @@ def main():
         html = f.read().decode("windows-1251")
 
     # Open output CSV file, named with the query used
-    csvFileName = query.replace(' ','_') + '.csv'    
+    csvFileName = os.path.join(BASE_DIR, query.replace(' ','_') + '.csv')    
     with open(csvFileName, 'w') as csvFile:
         csvWriter = csv.writer(csvFile, quoting=csv.QUOTE_ALL)
         csvWriter.writerow(['PID','file name', 'date', 'leader', 'Speech', 'URL', 'Date (YYYMMDD)','Speech Number','Speech Unique ID'])
@@ -50,11 +54,12 @@ def getSpeech(csvWriter, date, leader, pid, speech):
     '''Get a single speech as text and write metdata out to CSV'''
 
     # Create the filename and path to hold the text of the speech
-    directoryName = leader.replace(' ','_').replace('.','').replace(',','')
+    baseName = leader.replace(' ','_').replace('.','').replace(',','')
+    directoryName = os.path.join(BASE_DIR, baseName)
     if not os.path.isdir(directoryName):
         os.mkdir(directoryName)
     
-    fileName = directoryName + "_" + date.strftime("%Y%m%d") + "_" + pid + ".txt"
+    fileName = baseName + "_" + date.strftime("%Y%m%d") + "_" + pid + ".txt"
      
     filePath = os.path.join(directoryName, fileName)
 
