@@ -89,19 +89,22 @@ def getSpeech(csvWriter, date, leader, pid, speech):
     csvWriter.writerow(row)
 
     # Get the text of the speech
-    urlPrint = BASE_URL_PRINT + "?" + urllib.parse.urlencode({'pid' : pid})
-    print('Downloading: ', pid, filePath)
-
-    with urllib.request.urlopen(urlPrint) as f:
+    if os.path.isfile(filePath):
+        print('Skipping: ', pid, filePath)
+    else:
+        urlPrint = BASE_URL_PRINT + "?" + urllib.parse.urlencode({'pid' : pid})
+        print('Downloading: ', pid, filePath)
     
-        # Get results page html as a string
-        html = f.read().decode("iso-8859-1")
+        with urllib.request.urlopen(urlPrint) as f:
         
-        # Strip out html 
-        html = re.sub('<.*?>', '', html, flags=re.MULTILINE|re.IGNORECASE)
-        
-        # Write out to file
-        with open(filePath, 'w') as fileTxt:
-            fileTxt.write(html)
+            # Get results page html as a string
+            html = f.read().decode("iso-8859-1")
+
+            # Strip out html 
+            html = re.sub('<.*?>', '', html, flags=re.MULTILINE|re.IGNORECASE)
+
+            # Write out to file
+            with open(filePath, 'w') as fileTxt:
+                fileTxt.write(html)
             
 main()
