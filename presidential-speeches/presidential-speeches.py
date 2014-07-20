@@ -6,6 +6,7 @@ import urllib.request
 import urllib.parse
 from datetime import datetime
 import csv
+from bs4 import BeautifulSoup
 
 if sys.version_info[0] < 3 or (sys.version_info[0] == 3 and sys.version_info[1] < 2):
     raise Exception("This script requires Python 3.2 or greater")
@@ -101,10 +102,12 @@ def getSpeech(csvWriter, date, leader, pid, speech):
             html = f.read().decode("iso-8859-1")
 
             # Strip out html 
-            html = re.sub('<.*?>', '', html, flags=re.MULTILINE|re.IGNORECASE)
+            soup = BeautifulSoup(html)
+            body = soup.find('body')
+            text = body.get_text()
 
             # Write out to file
             with open(filePath, 'w') as fileTxt:
-                fileTxt.write(html)
+                fileTxt.write(text)
             
 main()
