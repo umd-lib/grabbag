@@ -1,0 +1,18 @@
+﻿' Download speech texts from the American Presidency Project, http://www.presidency.ucsb.edu/
+' Start from the search results page
+
+' Follow link to the nth paper where n is the loop number
+TAG POS={{!LOOP}} TYPE=A ATTR=CLASS:listlink&&TXT:*
+
+' Follow link to the paper's print version
+TAG POS=1 TYPE=IMG ATTR=SRC:http://www.presidency.ucsb.edu/images/icons/print.gif
+
+' Get the title of the page (President + Speech + Date)
+TAG POS=1 TYPE=TITLE ATTR=* EXTRACT=TXT
+
+' Extract text of the entire page and save to file named using the title
+SAVEAS TYPE=TXT FOLDER=* FILE={{!EXTRACT}}.txt
+
+' Return to the search results page
+BACK
+BACK
