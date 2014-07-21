@@ -1,4 +1,6 @@
-﻿' Download speech texts from the American Presidency Project, http://www.presidency.ucsb.edu/
+' Download speech texts from the American Presidency Project, http://www.presidency.ucsb.edu/
+' Derived from iMacro script created by Jessica Liu, jliu1236@terpmail.umd.edu
+
 ' Start from the search results page
 
 ' Follow link to the nth paper where n is the loop number
