@@ -8,5 +8,6 @@ for leaderDir in $(find speeches -type d -depth 1)
 do
 	echo Combining $leaderDir
 	leaderFile=${leaderDir}.txt
-	cat $leaderDir/* > $leaderFile
+	rm $leaderFile
+	find $leaderDir -type f | xargs cat >> $leaderFile
 done
