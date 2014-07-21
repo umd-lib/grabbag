@@ -1,0 +1,54 @@
+war
+wars
+conflict
+conflicts
+casualties
+casualty
+wound
+wounds
+troop
+troops
+soldier
+soldiers
+german
+japan
+italy
+ital
+nazi
+hitler
+hitler's
+emperor
+emperor's
+mussolini
+mussolini's
+korea
+koreans
+china
+chinese
+mao
+rhee
+macarthur
+vietnam
+viet-nam
+viet minh
+ho chi minh
+ho chi minh's
+thieu
+thieu's
+vietcong
+viet cong
+vietnamese
+laos
+cambodia
+iraq
+iraqi
+scud
+kuwait
+kuwaiti
+saddam
+hussein
+afghanistan
+afghan
+taliban
+al-qaeda
+al-qaida
