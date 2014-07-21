@@ -21,35 +21,53 @@ def main():
     if not os.path.isdir(BASE_DIR):
         os.mkdir(BASE_DIR)
 
-    # Execute the search using supplied query string
-    params = urllib.parse.urlencode({'searchterm' : query})
-    url = BASE_URL + "?" + params
-    print("Search URL: ", url)
-    
-    with urllib.request.urlopen(url) as f:
-    
-        # Get results page html as a string
-        html = f.read().decode("windows-1251")
-
     # Open output CSV file, named with the query used
     csvFileName = os.path.join(BASE_DIR, query.replace(' ','_') + '.csv')    
     with open(csvFileName, 'w') as csvFile:
         csvWriter = csv.writer(csvFile, quoting=csv.QUOTE_ALL)
         csvWriter.writerow(['PID','file name', 'date', 'leader', 'Speech', 'URL', 'Date (YYYMMDD)','Speech Number','Speech Unique ID'])
 
-        # Search the html for the list of documents
-        for match in re.findall("<td.*?class=listdate.*?>(.*?)</td>.*?<td.*?class=listname.*?>(.*?)</td>.*?<a href='index.php\?pid=(\d+).*?class=listlink>(.*?)</a>", html, re.MULTILINE|re.IGNORECASE):
-            (dateString,leader,pid,speech) = match
+        # Execute the search using supplied query string, once per year
+        nextYear = datetime.now().year + 1
+        for year in range(1933, nextYear):
+            if year == 1933:
+                monthstart = '03'
+                daystart = '04'
+            else:
+                monthstart = '01'
+                daystart = '01'
+    
+            params = urllib.parse.urlencode({'searchterm' : query,
+                                             'yearstart' : str(year),
+                                             'monthstart' : monthstart,
+                                             'daystart' : daystart,
+                                             'yearend' : str(year),
+                                             'monthend' : '12',
+                                             'dayend' : '31'
+            })
+            
+            url = BASE_URL + "?" + params
+            print("Search URL: ", url)
+            
+            with urllib.request.urlopen(url) as f:
+            
+                # Get results page html as a string
+                html = f.read().decode("windows-1251")
         
-            # data cleanup
-            leader = leader.replace('&nbsp;','').strip()
-            
-            speech = speech.replace('&nbsp;','')
-            speech = re.sub(r'<.*?>', '', speech)
-            
-            date = datetime.strptime(dateString, "%B %d, %Y")  
-
-            getSpeech(csvWriter, date, leader, pid, speech)
+        
+                # Search the html for the list of documents
+                for match in re.findall("<td.*?class=listdate.*?>(.*?)</td>.*?<td.*?class=listname.*?>(.*?)</td>.*?<a href='index.php\?pid=(\d+).*?class=listlink>(.*?)</a>", html, re.MULTILINE|re.IGNORECASE):
+                    (dateString,leader,pid,speech) = match
+                
+                    # data cleanup
+                    leader = leader.replace('&nbsp;','').strip()
+                    
+                    speech = speech.replace('&nbsp;','')
+                    speech = re.sub(r'<.*?>', '', speech)
+                    
+                    date = datetime.strptime(dateString, "%B %d, %Y")  
+        
+                    getSpeech(csvWriter, date, leader, pid, speech)
 
 def getSpeech(csvWriter, date, leader, pid, speech):
     '''Get a single speech as text and write metdata out to CSV'''
