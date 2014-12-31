@@ -4,7 +4,7 @@ from argparse import ArgumentParser
 # Copied from https://gist.github.com/chrisguitarguy/1305010
 
 import requests
-from BeautifulSoup import BeautifulStoneSoup as Soup
+from bs4 import BeautifulSoup as Soup
 
 def parse_sitemap(url):
 	resp = requests.get(url)
@@ -14,8 +14,8 @@ def parse_sitemap(url):
 		return False
 	
 	# BeautifulStoneSoup to parse the document
-	soup = Soup(resp.content)
-	
+	soup = Soup(resp.content, features="xml")
+    
 	# find all the <url> tags in the document
 	urls = soup.findAll('url')
 	
