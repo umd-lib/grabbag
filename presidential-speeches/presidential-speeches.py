@@ -25,12 +25,16 @@ def main():
     
     if not os.path.isdir(BASE_DIR):
         os.mkdir(BASE_DIR)
-
+        
+    if PRESIDENCY is not None:
+        pres = PRESIDENCY
+        
     # Open output CSV file, named with the query used
     csvFileName = os.path.join(BASE_DIR, query.replace(' ','_') + '.csv')    
     with open(csvFileName, 'w') as csvFile:
         csvWriter = csv.writer(csvFile, quoting=csv.QUOTE_ALL)
-        csvWriter.writerow(['PID','file name', 'date', 'leader', 'Speech', 'URL', 'Date (YYYMMDD)','Speech Number','Speech Unique ID'])
+        csvWriter.writerow(['PID','file name','date','leader','Speech','URL',
+            'Date (YYYMMDD)','Speech Number','Speech Unique ID'])
 
         # Execute the search using supplied query string, once per year
         for year in range(BEGIN_DATE.year, END_DATE.year + 1):
@@ -45,7 +49,8 @@ def main():
                                              'daystart' : daystart,
                                              'yearend' : str(year),
                                              'monthend' : monthend,
-                                             'dayend' : dayend
+                                             'dayend' : dayend,
+                                             'pres' : pres
             })
             
             url = BASE_URL + "?" + params
@@ -64,10 +69,12 @@ def main():
                     # data cleanup
                     leader = leader.replace('&nbsp;','').strip()
                     
-                    # cut processing loop short for rows not in leader filter
-                    if leader not in LEADER_FILTER:
-                        print("Skipping speech by {0}...".format(leader))
-                        continue
+                    # if leader filter is set, cut processing loop short for 
+                    # results not matching names in leader filter list
+                    if len(LEADER_FILTER) > 0:
+                        if leader not in LEADER_FILTER:
+                            print("Skipping speech by {0}...".format(leader))
+                            continue
                     
                     speech = speech.replace('&nbsp;','')
                     speech = re.sub(r'<.*?>', '', speech)
