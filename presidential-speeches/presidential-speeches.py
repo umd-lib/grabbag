@@ -7,16 +7,21 @@ import urllib.parse
 from datetime import datetime
 import csv
 from bs4 import BeautifulSoup
+import yaml
+
+with open('config.yml', 'r') as configfile:
+    globals().update(yaml.safe_load(configfile))
+
+print(type(BEGIN_DATE))
 
 if sys.version_info[0] < 3 or (sys.version_info[0] == 3 and sys.version_info[1] < 2):
     raise Exception("This script requires Python 3.2 or greater")
 
-BASE_URL = "http://www.presidency.ucsb.edu/ws/index.php"
-BASE_URL_PRINT = "http://www.presidency.ucsb.edu/ws/print.php"
-BASE_DIR = "speeches"
-
 def main():
-    query = sys.argv[1]
+    if len(sys.argv) > 1:
+        query = sys.argv[1]
+    else:
+        query = ''
     
     if not os.path.isdir(BASE_DIR):
         os.mkdir(BASE_DIR)
@@ -28,22 +33,19 @@ def main():
         csvWriter.writerow(['PID','file name', 'date', 'leader', 'Speech', 'URL', 'Date (YYYMMDD)','Speech Number','Speech Unique ID'])
 
         # Execute the search using supplied query string, once per year
-        nextYear = datetime.now().year + 1
-        for year in range(1933, nextYear):
-            if year == 1933:
-                monthstart = '03'
-                daystart = '04'
-            else:
-                monthstart = '01'
-                daystart = '01'
-    
+        for year in range(BEGIN_DATE.year, END_DATE.year + 1):
+            monthstart = str(BEGIN_DATE.month) if year == BEGIN_DATE.year else '1'
+            daystart = str(BEGIN_DATE.day) if year == BEGIN_DATE.year else '1'
+            monthend = str(END_DATE.month) if year == END_DATE.year else '12'
+            dayend = str(END_DATE.day) if year == END_DATE.year else '31'
+                
             params = urllib.parse.urlencode({'searchterm' : query,
                                              'yearstart' : str(year),
                                              'monthstart' : monthstart,
                                              'daystart' : daystart,
                                              'yearend' : str(year),
-                                             'monthend' : '12',
-                                             'dayend' : '31'
+                                             'monthend' : monthend,
+                                             'dayend' : dayend
             })
             
             url = BASE_URL + "?" + params
@@ -61,6 +63,11 @@ def main():
                 
                     # data cleanup
                     leader = leader.replace('&nbsp;','').strip()
+                    
+                    # cut processing loop short for rows not in leader filter
+                    if leader not in LEADER_FILTER:
+                        print("Skipping speech by {0}...".format(leader))
+                        continue
                     
                     speech = speech.replace('&nbsp;','')
                     speech = re.sub(r'<.*?>', '', speech)

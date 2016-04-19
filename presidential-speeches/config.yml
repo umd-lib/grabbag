@@ -1,0 +1,7 @@
+# Presidential Speeches Configuration
+BASE_URL:       http://www.presidency.ucsb.edu/ws/index.php
+BASE_URL_PRINT: http://www.presidency.ucsb.edu/ws/print.php
+BASE_DIR:       speeches
+BEGIN_DATE:     1996-01-01
+END_DATE:       1996-12-31
+LEADER_FILTER:  ['William J. Clinton']
