@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import xml.etree.ElementTree as ET
 import os
 import re
@@ -12,25 +14,31 @@ import yaml
 with open('config.yml', 'r') as configfile:
     globals().update(yaml.safe_load(configfile))
 
-print(type(BEGIN_DATE))
-
 if sys.version_info[0] < 3 or (sys.version_info[0] == 3 and sys.version_info[1] < 2):
     raise Exception("This script requires Python 3.2 or greater")
 
 def main():
-    if len(sys.argv) > 1:
-        query = sys.argv[1]
-    else:
-        query = ''
-    
     if not os.path.isdir(BASE_DIR):
         os.mkdir(BASE_DIR)
-        
-    if PRESIDENCY is not None:
-        pres = PRESIDENCY
-        
-    # Open output CSV file, named with the query used
-    csvFileName = os.path.join(BASE_DIR, query.replace(' ','_') + '.csv')    
+    
+    query = sys.argv[1] if len(sys.argv) > 1 else ''
+    pres = PRESIDENCY if PRESIDENCY is not None else ''
+    
+    # Choose base for output CSV filename, depending on query parameters
+    # If a searchterm is present, filename will be based on searchterm
+    if query != '':
+        fileBase = query
+    # If no searchterm, but a presidency has been specified use pres name
+    elif pres != '':
+        fileBase = ALL_PRESIDENTS[pres]
+    # Otherwise, use the range of years being searched
+    else:
+        fileBase = "{0}-{1}".format(str(BEGIN_DATE.year), str(END_DATE.year))
+    
+    # Open output CSV file
+    csvFileName = os.path.join(BASE_DIR, fileBase.replace(' ','_') + '.csv')
+    print(csvFileName)
+    
     with open(csvFileName, 'w') as csvFile:
         csvWriter = csv.writer(csvFile, quoting=csv.QUOTE_ALL)
         csvWriter.writerow(['PID','file name','date','leader','Speech','URL',
@@ -60,7 +68,6 @@ def main():
             
                 # Get results page html as a string
                 html = f.read().decode("windows-1251")
-        
         
                 # Search the html for the list of documents
                 for match in re.findall("<td.*?class=listdate.*?>(.*?)</td>.*?<td.*?class=listname.*?>(.*?)</td>.*?<a href='index.php\?pid=(\d+).*?class=listlink>(.*?)</a>", html, re.MULTILINE|re.IGNORECASE):
@@ -107,7 +114,7 @@ def getSpeech(csvWriter, date, leader, pid, speech):
         speechID = ""
         speechNum = ""
 
-    # Write the CSV metdata entry        
+    # Write the CSV metdata entry
     row = [
            pid,
            filePath,
@@ -134,7 +141,7 @@ def getSpeech(csvWriter, date, leader, pid, speech):
             html = f.read().decode("iso-8859-1")
 
             # Strip out html 
-            soup = BeautifulSoup(html)
+            soup = BeautifulSoup(html, 'lxml')
             body = soup.find('body')
             text = body.get_text()
 
