@@ -26,8 +26,8 @@ def main():
     
     # Choose base for output CSV filename, depending on query parameters
     # If a searchterm is present, filename will be based on searchterm
-    if query != '':
-        fileBase = query
+    if query != '' and query != ' ':
+       fileBase = query
     # If no searchterm, but a presidency has been specified use pres name
     elif pres != '':
         fileBase = ALL_PRESIDENTS[pres]
@@ -141,7 +141,7 @@ def getSpeech(csvWriter, date, leader, pid, speech):
             html = f.read().decode("iso-8859-1")
 
             # Strip out html 
-            soup = BeautifulSoup(html, 'lxml')
+            soup = BeautifulSoup(html, 'html.parser')
             body = soup.find('body')
             text = body.get_text()
 

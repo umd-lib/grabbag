@@ -6,14 +6,14 @@ BASE_URL_PRINT: http://www.presidency.ucsb.edu/ws/print.php
 BASE_DIR:       speeches
 
 # Begin and end dates to search, in form YYYY-MM-DD
-BEGIN_DATE:     2000-01-01
-END_DATE:       2016-12-31
+BEGIN_DATE:     1850-01-01
+END_DATE:       1850-12-31
 
 # Filter by Leader(s): names must match the forms in the list below exactly
 LEADER_FILTER:  []
 
 # Limit by number of presidency (single presidency only)
-PRESIDENCY: '44'
+PRESIDENCY: ''
 
 ALL_PRESIDENTS:
     '1': 'George Washington'
