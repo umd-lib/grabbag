@@ -14,6 +14,8 @@ from bs4 import BeautifulSoup
 LIBI_URL = 'http://libi.local'
 LIBI_URL_PREFIX = 'http://libi.local/'
 OUTPUT_PATH_PREFIX = 'OUTPUT/'
+STUDENT_APPLICATION_STR = 'Federal Work Study'
+STUDENT_APPLICATION_PATH = 'student_applications/'
 ATTACHMENT_DIR_SUFFIX = '_attachments/'
 ATTACHMENT_PATH_PATTERN = '/sites/default/files/'
 PDF_SUFFIX = '.pdf'
@@ -75,19 +77,6 @@ print(length + " nodes found!")
 # Iterate and Conversion
 for nid, dirname in zip(nodeIds, nodeUrls):
     url_path = LIBI_URL_PREFIX + dirname
-    file_path = OUTPUT_PATH_PREFIX + dirname + PDF_SUFFIX
-    directory = os.path.dirname(file_path)
-    print("Converting " + file_path)
-
-    # Create directory if it is not existed
-    try:
-        os.stat(directory)
-    except:
-        try:
-            os.makedirs(directory)
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                raise
 
     # Pick out the main content
     page = requests.get(url_path)
@@ -95,7 +84,7 @@ for nid, dirname in zip(nodeIds, nodeUrls):
         soup = BeautifulSoup(page.text, 'html.parser')
         title = soup.find(class_='title')
         content = soup.find(class_='content')
-        
+
         # replace relative content path to absolute content path
         if content is not None:
             for link in content.find_all('a'):
@@ -108,7 +97,24 @@ for nid, dirname in zip(nodeIds, nodeUrls):
             logging.warning('Content is none when converting nid:' + nid)
         resHtml = str(title) + str(content)
 
-        # Convert webpage using pdf kit module 
+        # IS student application
+        if STUDENT_APPLICATION_STR in str(content):
+            file_path = OUTPUT_PATH_PREFIX + STUDENT_APPLICATION_PATH + dirname + PDF_SUFFIX
+        else:
+            file_path = OUTPUT_PATH_PREFIX + dirname + PDF_SUFFIX
+        directory = os.path.dirname(file_path)
+
+        # Create directory if it is not existed
+        try:
+            os.stat(directory)
+        except:
+            try:
+                os.makedirs(directory)
+            except OSError as e:
+                if e.errno != errno.EEXIST:
+                    raise
+        # Convert webpage using pdf kit module
+        print("Converting " + file_path) 
         try:
             pdfkit.from_string(resHtml, file_path, options=PDF_OPTIONS)
         except OSError:
