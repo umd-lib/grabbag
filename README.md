@@ -9,5 +9,7 @@ Grab bag of miscellaneous scripts and utilities
 [sitemap.py](sitemap.py) - harvest URLs from a sitemap/sitemapindex (see http://www.sitemaps.org/)
 [mpbatch.py](mpbatch.py) - multiprocessing batch execution of commands
 
+[sitemap.py](sitemap.py) - harvest URLs from a sitemap/sitemapindex (see http://www.sitemaps.org/)
+
 ## License
 [Creative Commons - CC0](http://creativecommons.org/publicdomain/zero/1.0/)
