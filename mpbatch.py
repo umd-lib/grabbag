@@ -3,10 +3,11 @@
 from multiprocessing import Pool
 from subprocess import run, CalledProcessError
 from argparse import ArgumentParser, FileType
-from os import cpu_count
+from os import cpu_count, devnull
 from time import time, gmtime, strftime
 import logging
 import sys
+from jsonstreams import Stream, Type
 
 '''
 Run multiple subprocesses in the background. Report their results in an
@@ -66,16 +67,17 @@ if __name__ == '__main__':
 
     parser.add_argument("-n", "--threads",
                         type=int, default=0,
-                        help='''number of simultaneous threads; default is
- os.cpu_count() - 1''')
+                        help='number of simultaneous threads' +
+                        '; default is os.cpu_count() - 1')
 
-    parser.add_argument("-j", "--json-logfile",
-                        type=FileType('w', encoding='UTF-8'),
+    parser.add_argument("-l", "--log",
+                        type=FileType('w', encoding='UTF-8'), default=devnull,
                         help="json format log file")
 
     parser.add_argument("-r", "--raw", action="store_true",
-                        help='''commands are tab delimited list of subprocess
- args; default is single argument to /bin/bash -c''')
+                        help='commands are tab delimited list of ' +
+                        'subprocess args; default is single argument to ' +
+                        '/bin/bash -c')
 
     parser.add_argument("-d", "--debug", action="store_true",
                         help="enable debug logging")
@@ -97,7 +99,7 @@ if __name__ == '__main__':
 
     logger.debug(f'''Arguments:
   threads={args.threads}
-  json-logfile={args.json_logfile.name if args.json_logfile else None}
+  json-logfile={args.log}
   raw={args.raw}
   debug={args.debug}''')
 
@@ -113,35 +115,65 @@ if __name__ == '__main__':
             cmd = Command(['/bin/bash', '-c', line])
         commands.append(cmd)
 
-    # Begin execution
-    returncode = 0
-    start = time()
-    cumulative = 0
+    # Begin JSON logging
+    with Stream(Type.object, fd=args.log, indent=2, pretty=True) as log:
+        with log.subarray('processes') as log_processes:
+            args.log.flush()
 
-    logger.debug(f'Beginning execution of {len(commands)} command(s)')
+            # Begin execution
+            returncode = 0
+            start = time()
+            cumulative = 0
 
-    with Pool(processes=args.threads) as pool:
-        for cmd in pool.imap(execute, commands):
-            logger.debug("===")
-            logger.info(f'''Completed {cmd.args} with
- return code {cmd.returncode}''')
+            logger.debug(f'Beginning execution of {len(commands)} command(s)')
 
-            logger.debug(f'  Started:   {strftime(DATE, gmtime(cmd.start))}')
-            logger.debug(f'  Completed: {strftime(DATE, gmtime(cmd.stop))}')
-            logger.debug(f'  Elapsed:   {elapsed(cmd.stop - cmd.start)}')
-            logger.debug(f'  Stdout:    {cmd.stdout}')
-            logger.debug(f'  Stderr:    {cmd.stderr}')
+            with Pool(processes=args.threads) as pool:
+                for cmd in pool.imap(execute, commands):
+                    logger.debug("===")
+                    logger.info(f'Completed {cmd.args} with return code ' +
+                                f'{cmd.returncode}')
 
-            if cmd.returncode != 0:
-                returncode = 1
+                    stats = {
+                        'start': strftime(DATE, gmtime(cmd.start)),
+                        'stop': strftime(DATE, gmtime(cmd.stop)),
+                        'elapsed': elapsed(cmd.stop - cmd.start),
+                        'returncode': cmd.returncode,
+                        'stdout': cmd.stdout.decode('utf8', 'ignore'),
+                        'stderr': cmd.stderr.decode('utf8', 'ignore'),
+                    }
 
-            cumulative += cmd.stop - cmd.start
+                    log_processes.write(stats)
+                    args.log.flush()
 
-    stop = time()
+                    logger.debug(f'  Started:     {stats["start"]}')
+                    logger.debug(f'  Completed:   {stats["stop"]}')
+                    logger.debug(f'  Elapsed:     {stats["elapsed"]}')
+                    logger.debug(f'  Return code: {cmd.returncode}')
+                    logger.debug(f'  Stdout:      {cmd.stdout}')
+                    logger.debug(f'  Stderr:      {cmd.stderr}')
 
-    logger.debug("===")
-    logger.debug("Summary:")
-    logger.debug(f'  Started:    {strftime(DATE, gmtime(cmd.start))}')
-    logger.debug(f'  Completed:  {strftime(DATE, gmtime(cmd.stop))}')
-    logger.debug(f'  Elapsed:    {elapsed(stop - start)}')
-    logger.debug(f'  Cumulative: {elapsed(cumulative)}')
+                    if cmd.returncode != 0:
+                        returncode = 1
+
+                    cumulative += cmd.stop - cmd.start
+
+            stop = time()
+
+        stats = {
+            'start': strftime(DATE, gmtime(start)),
+            'stop': strftime(DATE, gmtime(stop)),
+            'elapsed': elapsed(stop - start),
+            'cumulative': elapsed(cumulative),
+            'returncode': returncode,
+        }
+
+        log.write('summary', stats)
+        args.log.flush()
+
+        logger.debug("===")
+        logger.debug("Summary:")
+        logger.debug(f'  Started:     {stats["start"]}')
+        logger.debug(f'  Completed:   {stats["stop"]}')
+        logger.debug(f'  Elapsed:     {stats["elapsed"]}')
+        logger.debug(f'  Cumulative:  {stats["cumulative"]}')
+        logger.debug(f'  Return code: {returncode}')
