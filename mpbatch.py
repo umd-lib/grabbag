@@ -134,6 +134,7 @@ if __name__ == '__main__':
                                 f'{cmd.returncode}')
 
                     stats = {
+                        'command': cmd.args,
                         'start': strftime(DATE, gmtime(cmd.start)),
                         'stop': strftime(DATE, gmtime(cmd.stop)),
                         'elapsed': elapsed(cmd.stop - cmd.start),
@@ -145,6 +146,7 @@ if __name__ == '__main__':
                     log_processes.write(stats)
                     args.log.flush()
 
+                    logger.debug(f'  Command:     {" ".join(cmd.args)}')
                     logger.debug(f'  Started:     {stats["start"]}')
                     logger.debug(f'  Completed:   {stats["stop"]}')
                     logger.debug(f'  Elapsed:     {stats["elapsed"]}')
