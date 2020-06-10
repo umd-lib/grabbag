@@ -1,0 +1,22 @@
+prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+prefix fedora:  <http://fedora.info/definitions/v4/repository#> 
+prefix premis:  <http://www.loc.gov/premis/rdf/v1#>
+prefix pcdm:  <http://pcdm.org/models#>
+
+SELECT ?subject ?size
+WHERE {
+  {
+  ?subject pcdm:memberOf ?collection.
+  ?collection rdf:type pcdm:Collection.
+  ?subject pcdm:hasMember ?middle.
+  ?middle pcdm:hasFile ?binary.
+  ?binary rdf:type fedora:Binary; premis:hasSize ?size
+  }
+  UNION
+  {
+  ?subject pcdm:memberOf ?collection.
+  ?collection rdf:type pcdm:Collection.
+  ?subject pcdm:hasFile ?binary.
+  ?binary rdf:type fedora:Binary; premis:hasSize ?size
+  }
+}

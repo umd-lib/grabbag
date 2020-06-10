@@ -1,0 +1,48 @@
+binaries.json
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/55/1c/a8/7a/551ca87a-30d7-4571-af61-4fff2a0c1e64 3279445208
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/e4/9a/e3/48/e49ae348-372d-46aa-ac1e-82ef20821cfb 2820910060
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/83/70/7b/31/83707b31-66ef-4f45-8655-12c43f9d2443 2606195558
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/1b/2c/8e/a8/1b2c8ea8-a31d-4d05-aa7e-1181f2cdc8bc 2474809097
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/21/bc/40/23/21bc4023-b110-4827-8206-19c22b983610 2434291221
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/cf/34/cf/ac/cf34cfac-b1e9-46f2-93e8-ffdcfdd6e4ab 2419813156
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/3e/3d/de/2f/3e3dde2f-f6fe-4108-bd76-cc04a7f74b34 2358615930
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/30/a2/7f/70/30a27f70-65c5-4fd3-a153-1d7647fe7219 2236748244
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/84/0c/4e/26/840c4e26-ce1b-4bff-9acd-20310d958c73 2180511739
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/88/88/82/18/88888218-f3c4-4cd1-9908-6e84b523444a 2144020513
+total=24955360726
+binaries-prange.json
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/83/70/7b/31/83707b31-66ef-4f45-8655-12c43f9d2443 2606195558
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/21/bc/40/23/21bc4023-b110-4827-8206-19c22b983610 2434291221
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/9c/4c/31/85/9c4c3185-e00b-4964-ac8d-7d460cbde8a9 2110240715
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/0a/39/79/92/0a397992-bcb6-4d48-9d9f-2e89981448ce 2052649871
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/f5/19/dc/47/f519dc47-d446-4a38-a800-262d3523b976 2029668493
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/29/1d/ad/f9/291dadf9-f508-4a73-9c48-7fc55e9acd6b 1652525379
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/f1/11/8e/14/f1118e14-76ab-4416-b8da-0c0bdeba1d7e 1631712448
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/2a/8e/cb/ac/2a8ecbac-f25c-4755-b564-06bf55c03e19 1564287122
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/16/14/83/05/16148305-ff44-42bc-854f-dfaf50a02470 1533292975
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/5c/e7/dd/4a/5ce7dd4a-f241-4af5-a061-063d403585ac 1528638489
+total=19143502271
+binaries-newspaper-pdf.json
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/18/b9/4d/be/18b94dbe-39dc-4b24-9eaf-c3e692113d35 167301382
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/db/4b/19/4a/db4b194a-4292-4328-a38d-e2f5295547a7 148935960
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/9b/a3/39/d9/9ba339d9-332b-4d24-b6aa-adec40c69087 148444304
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/be/88/fb/27/be88fb27-d758-4e93-b4bb-ea190faf56f5 144626048
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/1b/2c/8e/a8/1b2c8ea8-a31d-4d05-aa7e-1181f2cdc8bc 144114256
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/f5/13/aa/45/f513aa45-8280-47bb-9530-f0c92fa8f792 140116241
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/77/96/23/1c/7796231c-b832-4677-a9d4-70628128f164 138907785
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/3e/3d/de/2f/3e3dde2f-f6fe-4108-bd76-cc04a7f74b34 135649982
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/ba/03/b5/05/ba03b505-7109-4fc5-a23e-b1eec3640514 135012994
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/05/b3/96/14/05b39614-b6d4-4f2e-90c8-f51d4b5f89bb 134385991
+total=1437494943
+binaries-newspaper-tiff.json
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/1b/2c/8e/a8/1b2c8ea8-a31d-4d05-aa7e-1181f2cdc8bc 2056869224
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/3e/3d/de/2f/3e3dde2f-f6fe-4108-bd76-cc04a7f74b34 1963362592
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/30/a2/7f/70/30a27f70-65c5-4fd3-a153-1d7647fe7219 1855685792
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/84/0c/4e/26/840c4e26-ce1b-4bff-9acd-20310d958c73 1814057912
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/88/88/82/18/88888218-f3c4-4cd1-9908-6e84b523444a 1789486354
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/0c/88/48/54/0c884854-3aee-4748-b94c-18c0fb32f342 1747536990
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/18/b9/4d/be/18b94dbe-39dc-4b24-9eaf-c3e692113d35 1610821756
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/6b/27/46/8a/6b27468a-730f-4a42-96d9-83088731d6ac 1589449528
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/e2/ec/93/5b/e2ec935b-0afb-4da0-9256-c4b79c856ab7 1550070230
+https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/57/64/02/73/57640273-0e2e-4a92-afbb-9db8398fe9c1 1532658230
+total=17509998608

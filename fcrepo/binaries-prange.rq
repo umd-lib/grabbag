@@ -1,0 +1,19 @@
+prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+prefix fedora:  <http://fedora.info/definitions/v4/repository#>
+prefix ldp:  <http://www.w3.org/ns/ldp#>
+prefix bibo:  <http://purl.org/ontology/bibo/>
+prefix iana:  <http://www.iana.org/assignments/relation/>
+prefix xs:  <http://www.w3.org/2001/XMLSchema>
+prefix dc:  <http://purl.org/dc/elements/1.1/>
+prefix premis:  <http://www.loc.gov/premis/rdf/v1#>
+prefix pcdm:  <http://pcdm.org/models#>
+prefix ebucore:  <http://www.ebu.ch/metadata/ontologies/ebucore/ebucore#>
+
+# Prange Assets - binaries of type image/jpeg
+SELECT ?subject ?size
+WHERE {
+  ?subject pcdm:memberOf <https://fcrepo.lib.umd.edu/fcrepo/rest/pcdm/24/a1/be/ac/24a1beac-67e1-48a8-aed2-54e4ca6310f5>.
+  ?subject pcdm:hasMember ?page.
+  ?page pcdm:hasFile ?binary.
+  ?binary rdf:type fedora:Binary; premis:hasSize ?size; ebucore:hasMimeType 'image/jpeg'.
+}

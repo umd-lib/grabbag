@@ -11,5 +11,7 @@ Grab bag of miscellaneous scripts and utilities
 
 [mpbatch.py](mpbatch.py) - multiprocessing batch execution of commands
 
+[fcrepo](fcrepo) - Fedora Content Repository SparQL queries
+
 ## License
 [Creative Commons - CC0](http://creativecommons.org/publicdomain/zero/1.0/)
