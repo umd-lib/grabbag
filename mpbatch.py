@@ -79,6 +79,10 @@ if __name__ == '__main__':
                         'subprocess args; default is single argument to ' +
                         '/bin/bash -c')
 
+    parser.add_argument("-o", "--ordered", action="store_true",
+                        help="return results in same order as input; default" +
+                        " is unordered, return results as processes complete")
+
     parser.add_argument("-d", "--debug", action="store_true",
                         help="enable debug logging")
 
@@ -101,6 +105,7 @@ if __name__ == '__main__':
   threads={args.threads}
   json-logfile={args.log}
   raw={args.raw}
+  ordered={args.ordered}
   debug={args.debug}''')
 
     # Read the input commands to run
@@ -128,7 +133,12 @@ if __name__ == '__main__':
             logger.debug(f'Beginning execution of {len(commands)} command(s)')
 
             with Pool(processes=args.threads) as pool:
-                for cmd in pool.imap(execute, commands):
+                if args.ordered:
+                    f = pool.imap
+                else:
+                    f = pool.imap_unordered
+
+                for cmd in f(execute, commands):
                     logger.debug("===")
                     logger.info(f'Completed {cmd.args} with return code ' +
                                 f'{cmd.returncode}')
