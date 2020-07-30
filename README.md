@@ -13,5 +13,7 @@ Grab bag of miscellaneous scripts and utilities
 
 [fcrepo](fcrepo) - Fedora Content Repository SparQL queries
 
+[cloc-git](cloc-git) - Count files and lines of code in a git repository
+
 ## License
 [Creative Commons - CC0](http://creativecommons.org/publicdomain/zero/1.0/)
