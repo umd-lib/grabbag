@@ -1,5 +1,4 @@
-grabbag
-=======
+# grabbag
 
 Grab bag of miscellaneous scripts and utilities
 
@@ -15,5 +14,8 @@ Grab bag of miscellaneous scripts and utilities
 
 [cloc-git](cloc-git) - Count files and lines of code in a git repository
 
+[dbfinder.py](dbfinder.py) - Export Database Finder databases to CSV
+
 ## License
+
 [Creative Commons - CC0](http://creativecommons.org/publicdomain/zero/1.0/)
