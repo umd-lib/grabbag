@@ -9,8 +9,8 @@ import csv
 # 1. In the Hippo console, export path=/content/documents/dbfinder/databases
 # to databases.yaml
 #
-# 2. Use yq to convert YAML to JSON
-# yq -j -P write databases.yaml - > databases.json
+# 2. Use yq to convert YAML to JSON (yq version 4)
+# yq eval -o=j databases.yaml > databases.json
 #
 # 3. Convert JSON to CSV
 # python3 dbfinder.py < databases.json > dbfinder.csv
@@ -82,6 +82,9 @@ def handle_database(e):
 
     headers.append("Name")
     row.append(e["public:name"])
+
+    headers.append("LastModificationDate")
+    row.append(handle_text(e, "hippostdpubwf:lastModificationDate"))
 
     headers.append("Description")
     row.append(handle_html(e, "/public:description"))
