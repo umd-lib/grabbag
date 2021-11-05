@@ -16,6 +16,8 @@ Grab bag of miscellaneous scripts and utilities
 
 [dbfinder.py](dbfinder.py) - Export Database Finder databases to CSV
 
+[website-redirects.py](website-redirects.py) - Extract URL redirections from the OUI Sitemap spreadsheet
+
 ## License
 
 [Creative Commons - CC0](http://creativecommons.org/publicdomain/zero/1.0/)
