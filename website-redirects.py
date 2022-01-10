@@ -18,37 +18,38 @@ def extract_migration_url(s):
         return None
 
 reader = csv.reader(sys.stdin)
-writer = csv.writer(sys.stdout)
+writer = csv.writer(sys.stdout, delimiter='\t')
 writer.writerow(['FROM', 'TO'])
 
 for row in reader:
+    l1p, l1m, l2p, l2m, l3p, l3m, l4p, l4m = [row[i] for i in (1,4,6,7,9,10,11,12)]
 
     # New paths
-    if row[1] != "":
-        l1 = row[1]
+    if l1p != "":
+        l1 = l1p
         l2 = l3 = l4 = NA
 
-    elif row[6] != "":
-        l2 = row[6]
+    elif l2p != "":
+        l2 = l2p
         l3 = l4 = NA
 
-    elif row[11] != "":
-        l3 = row[11]
+    elif l3p != "":
+        l3 = l3p
         l4 = NA
 
-    elif row[16] != "":
-        l4 = row[16]
+    elif l4p != "":
+        l4 = l4p
 
     # Migration URLs
-    if url := extract_migration_url(row[4]):
+    if url := extract_migration_url(l1m):
         writer.writerow([f'{url}', f'{l1}'])
 
-    elif url := extract_migration_url(row[9]):
+    elif url := extract_migration_url(l2m):
         writer.writerow([f'{url}', f'{l1}{l2}'])
 
-    elif url := extract_migration_url(row[14]):
+    elif url := extract_migration_url(l3m):
         writer.writerow([f'{url}', f'{l1}{l2}{l3}'])
 
-    elif url := extract_migration_url(row[19]):
+    elif url := extract_migration_url(l4m):
         writer.writerow([f'{url}', f'{l1}{l2}{l3}{l4}'])
 
