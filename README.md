@@ -18,6 +18,8 @@ Grab bag of miscellaneous scripts and utilities
 
 [website-redirects.py](website-redirects.py) - Extract URL redirections from the OUI Sitemap spreadsheet
 
+[website-stress.sh](website-stress.sh) - Simple website stress tester, using an XML sitemap
+
 ## License
 
 [Creative Commons - CC0](http://creativecommons.org/publicdomain/zero/1.0/)
