@@ -14,4 +14,4 @@ curl --silent "$sitemap" \
   | perl -n -e '/\<loc\>(.*)\<\/loc\>/ && print "curl -s -o /dev/null -w \"%{http_code}\\n\" $1\n";' \
   | ./mpbatch.py --log /tmp/website-stress.json --threads "$threads"
 
-jq '.[] | map(select(.stdout != "200\n"))' /tmp/website-stress.json
+jq '.processes[] | select(.stdout != "200\n")' /tmp/website-stress.json
